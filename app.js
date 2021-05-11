@@ -78,7 +78,6 @@ passport.use(
     }
   )
 );
-
 app.get("/", function (req, res) {
   res.render("home");
 });
@@ -184,7 +183,7 @@ app.post("/login", function (req, res) {
   });
 });
 
-const port = process.env.PORT || 3000;
-app.listen(port, function () {
+const por = process.env.PORT || 3000;
+app.listen(por, function () {
   console.log("Server started on port 3000.");
 });
