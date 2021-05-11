@@ -39,6 +39,7 @@ mongoose.set("useCreateIndex", true);
 
 const userSchema = new mongoose.Schema({
   email: String,
+  username: String,
   password: String,
   googleId: String,
   secret: String,
@@ -72,9 +73,12 @@ passport.use(
     function (accessToken, refreshToken, profile, cb) {
       console.log(profile);
 
-      User.findOrCreate({ googleId: profile.id }, function (err, user) {
-        return cb(err, user);
-      });
+      User.findOrCreate(
+        { username: profile.emails[0].value, googleId: profile.id },
+        function (err, user) {
+          return cb(err, user);
+        }
+      );
     }
   )
 );
@@ -84,7 +88,7 @@ app.get("/", function (req, res) {
 
 app.get(
   "/auth/google",
-  passport.authenticate("google", { scope: ["profile"] })
+  passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
 app.get(
